@@ -13,8 +13,8 @@ std::string hashFile(const std::string &filename)
     using namespace CryptoPP;
 
     std::ifstream file(filename, std::ios::binary);
-    if (!file)
-    {
+   if (!file)
+     {
         std::cerr << "Unable to open file: " << filename << std::endl;
         return "";
     }
