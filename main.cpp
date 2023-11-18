@@ -7,6 +7,22 @@
 #include "cryptopp/hex.h"
 #include "cryptopp/filters.h"
 
+// Function to generate RIPEMD-128 hash using HMAC
+std::string generateHMAC(const std::string &message, const std::string &key)
+{
+    CryptoPP::HMAC<CryptoPP::RIPEMD128> hmac((const CryptoPP::byte *)key.data(), key.size());
+    std::string digest;
+    CryptoPP::StringSource(message, true,
+        new CryptoPP::HashFilter(hmac,
+            new CryptoPP::HexEncoder(
+                new CryptoPP::StringSink(digest)
+            )
+        )
+    );
+    return digest;
+}
+ 
+
 // Function to hash the file with RIPEMD-128
 std::string hashFile(const std::string &filename)
 {
@@ -61,6 +77,37 @@ int main()
     else
     {
         std::cout << "File integrity verification failed!" << std::endl;
+    }
+
+    // Case 2:
+    std::cout << "\nCase 2: Message integrity check" << std::endl;
+ 
+    // Shared secret key between Alice and Bob
+    std::string secretKey = "SuperSecretKey";
+ 
+    // Message from Alice to Bob
+    std::string aliceMessage = "Meet me at the secret location.";
+ 
+    // Alice generates HMAC for the message
+    std::string aliceHMAC = generateHMAC(aliceMessage, secretKey);
+ 
+    // Simulate message transmission
+    std::cout << "Alice sends the message: " << aliceMessage << std::endl;
+    std::cout << "Alice sends the HMAC: " << aliceHMAC << std::endl;
+ 
+    // Bob receives the message and HMAC
+    // (In a real scenario, these would be transmitted securely)
+ 
+    // Bob verifies the integrity of the message
+    std::string bobReceivedHMAC = generateHMAC(aliceMessage, secretKey);
+ 
+    if (bobReceivedHMAC == aliceHMAC)
+    {
+        std::cout << "Bob received the message intact. It's from Alice!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Warning: Message integrity compromised. Possible tampering!" << std::endl;
     }
 
     return 0;
