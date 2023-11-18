@@ -9,5 +9,5 @@ To execute the program, you will need a C++ compiler and after you've downloaded
 1. Extract the downloaded zip file.
 2. Open the extracted folder in Visual Studio Code and install the C/C++ extension for Visual Studio Code. You can install the C/C++ extension by searching for 'C++' in the Extensions view.
 3. Open the terminal through Visual Studio Code and write those commands: `cd cryptopp` and `make`, to compile the external library `cryptopp`
-4. Modify the `tasks.json` file by adding this line `"-I", "${workspaceFolder}/cryptopp", "-L", "${workspaceFolder}/cryptopp", "-lcryptopp"`.
+4. Modify the `tasks.json` file by adding this line `"-I", "${workspaceFolder}/cryptopp", "-L", "${workspaceFolder}/cryptopp", "-lcryptopp"` into the `args` field.
 6. Run the program by pressing `F5`.
